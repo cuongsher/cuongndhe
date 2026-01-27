@@ -49,8 +49,14 @@ class _Exercise3DemoState extends State<Exercise3Demo> {
               ),
             ),
 
-            const SizedBox(height: 16),
+            Image.asset(
+              'assets/images/iu.jpg',
+              width: 60,
+              height: 60,
+            ),
 
+
+            const SizedBox(height: 16),
             // LIST
             Expanded(
               child: ListView.builder(
