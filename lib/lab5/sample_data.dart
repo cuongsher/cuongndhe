@@ -14,8 +14,7 @@ final List<Movie> movies = [
   Movie(
     id: "2",
     title: "Interstellar",
-    posterUrl: "https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
-    overview:
+    posterUrl: "https://image.tmdb.org/t/p/w780/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",    overview:
     "A team of explorers travel through a wormhole in space.",
     genres: ["Adventure", "Drama"],
     rating: 8.6,
