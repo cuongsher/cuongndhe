@@ -1,5 +1,8 @@
+import 'package:demo/lab4/exercise1.dart';
 import 'package:demo/lab4/exercise2.dart';
 import 'package:demo/lab4/exercise3.dart';
+import 'package:demo/lab4/exercise4.dart';
+import 'package:demo/lab4/exercise5.dart';
 import 'package:flutter/material.dart';
 
 import 'exercise4.dart';
@@ -24,7 +27,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Exercise2(),
+                      builder: (context) => const Exercise1(),
                     ),
                   );
                 },
@@ -40,7 +43,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Exercise3Demo(),
+                      builder: (context) => const Exercise2(),
                     ),
                   );
                 },
@@ -56,7 +59,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Exercise4(),
+                      builder: (context) => const Exercise3Demo(),
                     ),
                   );
                 },
@@ -72,7 +75,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Exercise2(),
+                      builder: (context) => const Exercise4(),
                     ),
                   );
                 },
@@ -88,7 +91,7 @@ class Homepage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Exercise2(),
+                      builder: (context) => const Exercise5(),
                     ),
                   );
                 },

@@ -1,17 +1,27 @@
 import 'package:demo/lab4/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/lab5/home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 void main() {
-  runApp(const MaterialApp(
-    home: HomeScreen(),
-    debugShowCheckedModeBanner: false,
-  ));
-
-
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
+  }
+}
 
 
 

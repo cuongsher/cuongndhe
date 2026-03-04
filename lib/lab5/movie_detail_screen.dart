@@ -1,31 +1,23 @@
+import 'package:demo/lab5/sample_data.dart';
 import 'package:flutter/material.dart';
 import 'movie.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieDetailScreen extends StatefulWidget {
+class MovieDetailScreen extends ConsumerWidget {
   final Movie movie;
 
   const MovieDetailScreen({super.key, required this.movie});
 
   @override
-  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
-}
-
-class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  bool isFavorite = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final movie = widget.movie;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favorites = ref.watch(favoriteProvider);
+    final isFavorite = favorites.contains(movie.id);
 
     return Scaffold(
-      appBar: AppBar(title: Text(movie.title)),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /// Poster + Gradient
             Stack(
               children: [
                 Image.network(
@@ -47,81 +39,101 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            /// Genres
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Wrap(
-                spacing: 8,
-                children: movie.genres
-                    .map((genre) => Chip(label: Text(genre)))
-                    .toList(),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            /// Overview
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(movie.overview),
-            ),
-
-            const SizedBox(height: 10),
-
-            /// Action Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: Colors.red,
+                Positioned(
+                  left: 16,
+                  bottom: 16,
+                  child: Text(
+                    movie.title,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      isFavorite = !isFavorite;
-                    });
-                  },
                 ),
-                IconButton(
-                  icon: const Icon(Icons.star),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () {},
-                ),
+                Positioned(
+                  top: 40,
+                  left: 10,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back,
+                        color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                )
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    children: movie.genres
+                        .map((g) => Chip(label: Text(g)))
+                        .toList(),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(movie.overview),
+                  const SizedBox(height: 20),
 
-            const SizedBox(height: 20),
+                  /// ACTIONS (Riverpod controlled)
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isFavorite
+                                  ? Colors.red
+                                  : null,
+                            ),
+                            onPressed: () {
+                              ref
+                                  .read(favoriteProvider.notifier)
+                                  .toggleFavorite(movie.id);
+                            },
+                          ),
+                          const Text("Favorite"),
+                        ],
+                      ),
+                      const Column(
+                        children: [
+                          Icon(Icons.star_border),
+                          SizedBox(height: 4),
+                          Text("Rate"),
+                        ],
+                      ),
+                      const Column(
+                        children: [
+                          Icon(Icons.share),
+                          SizedBox(height: 4),
+                          Text("Share"),
+                        ],
+                      ),
+                    ],
+                  ),
 
-            /// Trailer List
-            const Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "Trailers",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 24),
+                  const Text("Trailers",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+
+                  ...movie.trailers.map(
+                        (t) => ListTile(
+                      leading:
+                      const Icon(Icons.play_circle_outline),
+                      title: Text(t),
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: movie.trailers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(Icons.play_circle),
-                  title: Text(movie.trailers[index]),
-                );
-              },
             ),
           ],
         ),
